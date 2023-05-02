@@ -1,7 +1,6 @@
 # using flask_restful
 from flask import Flask, jsonify, request, abort
 import json
-from flask_cors import CORS
 from kafka import KafkaProducer
 
 # creating a Flask app

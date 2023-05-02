@@ -4,3 +4,6 @@
 .idea/
 .Python
 /app-producer/venv/
+/app-producer/tmp_env/
+tmp_env/
+
