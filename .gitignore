@@ -1,0 +1,6 @@
+./app-producer/venv/*
+**/venv
+/venv/
+.idea/
+.Python
+/app-producer/venv/
