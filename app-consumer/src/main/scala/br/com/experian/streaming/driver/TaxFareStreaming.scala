@@ -27,7 +27,6 @@ object TaxFareStreaming {
       val sparkSession = broadcastSparkSession.value
 
       // obtendo topicos kafka consumer
-      val topics = conf.getString(KafkaConstants.KAFKA_CONSUMER_TOPIC_NAME_JSON_TAXFARE)
 
       val df = sparkSession.readStream
         .format("kafka")

@@ -1,15 +1,20 @@
+import os
+from dotenv import load_dotenv
 from flask import Flask, jsonify, request, abort
 import json
 from kafka import KafkaProducer
 
 # creating a Flask app
 app = Flask(__name__)
+app.config['JSON_AS_ASCII'] = False
 
-TOPIC_NAME = "TAXIFARE"
-KAFKA_SERVER = "localhost:9092"
+load_dotenv()
+
+topic = os.getenv('TOPIC_NAME', 'TAXIFARE')
+broker_kafka = os.getenv('KAFKA_SERVER', 'localhost:9092')
 
 producer = KafkaProducer(
-    bootstrap_servers = KAFKA_SERVER
+    bootstrap_servers = broker_kafka
 )
 
 def kafkaProducer(req):
@@ -17,10 +22,14 @@ def kafkaProducer(req):
     json_payload = str.encode(json_payload)
 
     # push data into TAXIFARI TOPIC
-    producer.send(TOPIC_NAME, json_payload)
+    producer.send(topic, json_payload)
     producer.flush()
     print("Sent to consumer")
     return jsonify({"message": "Sent to consumer", "status": "Pass"})
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return {'message': 'Route not found'}, 404
 
 @app.route('/api/producer', methods=['POST'])
 def postMessage():
