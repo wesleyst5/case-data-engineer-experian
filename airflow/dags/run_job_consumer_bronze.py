@@ -16,7 +16,7 @@ default_args = {
     'retry_delay': timedelta(minutes=5),
 }
 
-dag=DAG('run_spark_scala_job',
+dag=DAG('run_spark_scala_job_bronze',
           default_args=default_args,
           schedule_interval=SCHEDULE_INTERVAL,
           )
