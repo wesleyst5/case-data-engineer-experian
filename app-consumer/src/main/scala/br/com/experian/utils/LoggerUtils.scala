@@ -1,4 +1,4 @@
-package br.com.experian.streaming.utils
+package br.com.experian.utils
 
 import org.apache.log4j.Logger
 

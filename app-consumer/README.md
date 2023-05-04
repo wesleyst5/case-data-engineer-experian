@@ -15,6 +15,7 @@ Para o desenvolvimento dessa aplicação foram usadas as seguintes tecnlogias:
 
 Para acessar a documentação clique [aqui](https://app.swaggerhub.com/apis/hitallow/crud-users/1.0)
 
+
 ## Executar localmente
 Para executar o código local, é necessário seguir dois passos.
 Mas primeiro crie um arquivo `.env` com base no `.env.example` e preencha as informações, ao mudar a porta onde a aplicação será servida é preciso ter atenção na hora da execução.

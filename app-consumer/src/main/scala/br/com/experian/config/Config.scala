@@ -1,4 +1,4 @@
-package br.com.experian.streaming.config
+package br.com.experian.config
 
 import com.typesafe.config.ConfigFactory
 

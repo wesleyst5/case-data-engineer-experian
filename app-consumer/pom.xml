@@ -5,8 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>serasa</groupId>
-    <artifactId>consumer-kafka-streaming</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <artifactId>consumer-kafka</artifactId>
+    <version>1.0.0</version>
 
     <dependencies>
 

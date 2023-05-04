@@ -1,4 +1,4 @@
-package br.com.experian.streaming.constants
+package br.com.experian.constants
 
 object SparkConstants {
 

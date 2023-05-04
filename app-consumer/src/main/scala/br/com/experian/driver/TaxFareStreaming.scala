@@ -1,8 +1,8 @@
-package br.com.experian.streaming.driver
+package br.com.experian.driver
 
-import br.com.experian.streaming.config.Config
-import br.com.experian.streaming.config.spark.SparkConfig
-import br.com.experian.streaming.constants.{KafkaConstants, ParquetConstants}
+import br.com.experian.config.Config
+import br.com.experian.config.spark.SparkConfig
+import br.com.experian.constants.{KafkaConstants, ParquetConstants}
 import org.apache.log4j.Logger
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.functions.{col, from_json}

@@ -1,7 +1,7 @@
-package br.com.experian.streaming.config.spark
+package br.com.experian.config.spark
 
-import br.com.experian.streaming.config.Config
-import br.com.experian.streaming.constants.SparkConstants
+import br.com.experian.config.Config
+import br.com.experian.constants.SparkConstants
 import org.apache.spark.SparkConf
 import org.apache.spark.streaming.{Seconds, StreamingContext}
 
