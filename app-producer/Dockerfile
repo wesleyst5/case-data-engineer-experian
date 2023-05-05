@@ -1,12 +1,20 @@
-FROM python:3.8-slim-buster
+FROM alpine:latest
 
 LABEL MANTAINER="Wesley Santana Tavares"
 
-WORKDIR /python-docker
+RUN apk update
+RUN apk add py-pip
+RUN apk add --no-cache bash
+RUN apk add busybox-extras
+RUN apk add --no-cache python3-dev
+RUN pip install --upgrade pip
 
-COPY requirements.txt .
-RUN pip install -r requirements.txt
+WORKDIR /app
+COPY . /app
 
-COPY . .
+RUN rm .env
+RUN mv .env.example .env
 
-CMD [ "python3", "-m" , "flask", "run", "--host=0.0.0.0"]
+RUN pip --no-cache-dir install -r requirements.txt
+
+CMD ["python3", "main.py"]

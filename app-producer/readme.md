@@ -3,70 +3,48 @@
 Esse projeto tem como objetivo produzir eventos através do endPoint (**_api/producer_**) e realizar o envio para um Tópico Kafka
 
 ## Solução
-![img.png](img.png)
+![img.png](doc%2Fimg.png)
 
 ## Tecnologias utilizadas
   Para o desenvolvimento dessa aplicação foram usadas as seguintes tecnlogias:
   - Python
   - Flask
 
-## Documentação
+## Pré requisitos:
+1. Subir o serviço do kafka através do [docker-compose.yml](https://github.com/wesleyst5/case-data-engineer-experian/blob/main/docker-compose.yaml) localizado na raiz do projeto
 
-Para acessar a documentação clique [aqui](https://app.swaggerhub.com/apis/hitallow/crud-users/1.0)
+## Para rodar a solução:
+### 1. Builde a imagem e execute o comando abaixo para subir a aplicação
+```
+  docker compose up -d --build
+```
+### 2. Realize chamada ao endPoint da aplicação. Segue Sugestões abaixo:
+#### Curl
+```
+curl --location 'http://127.0.0.1:5000/api/producer' --header 'Content-Type: application/json' --data '{
+ "key": "2023-05-04 17:26:21.0000001",
+ "fare_amount": "4.5",
+ "pickup_datetime": "2023-05-04 17:00:00",
+ "pickup_longitude": "-73.844311",
+ "pickup_latitude": "40.721319",
+ "dropoff_longitude": "-73.84161",
+ "dropoff_latitude": "40.712278",
+ "passenger_count": "5"
+}'
+```
+#### Postman
+[POC - Serasa.postman_collection.json](doc%2FPOC%20-%20Serasa.postman_collection.json)
 
+## Resultados:
 
-## Executar localmente
-Para executar o código local, é necessário seguir dois passos.
-Mas primeiro crie um arquivo `.env` com base no `.env.example` e preencha as informações, ao mudar a porta onde a aplicação será servida é preciso ter atenção na hora da execução.
+![img_3.png](doc%2Fimg_3.png)
 
-### Utilizando venv
-
-É preciso ter instalado o pip na sua máquina. Para instalar a virtualenv você pode usar este comando, caso você utilize uma versão diferente é preciso especificar.
+Acesse a url abaixo para visualizar através do client kafdrop o registro enviado ao tópico:
 ```
-  $ pip install virtualenv
-```
-Agora você pode criar sua virtualenv com o comando a seguir.
-```
-  $ virtualenv <nome_da_sua_venv> 
-```
-Após criar sua virtualenv ative ela executando.
-```
-  $ source <nome_da_sua_venv>/bin/activate
-```
-Utilize o arquivo `requirements.txt` para utilizar as memas dependencias que eu utilizei. Para isto rode:
-```
-  $ pip install requirements.txt
-```
-Rode a aplicação executando:
-```
-  $ python main.py
-```
-
-Após executar este comando basta acessar seu localhost na porta que você especificou no arquivo `.env`, mas caso não tenha alterado ou tenha deixado vazio a porta padrão é a porta 8081.
-
-
-Para desativar a virtualenv utilize:
-```
-  $ deactivate
+http://localhost:19000/
 ```
 
+![img_1.png](doc%2Fimg_1.png)
 
-### Utilizando docker
+![img_2.png](doc%2Fimg_2.png)
 
-Tenha o docker instalado na sua máquina.
-Builde a imagem com o seguinte comando no meso nível do arquivo Dockerfile:
-```
-  $ docker build -t test-hitallo-backend-py:latest .
-```
-Para então executar o container, utilize: (altere a porta 8081 para a porta que você desejar)
-```
-  $ docker run -d --name test-hitallo-backend-py  -p 8081:8081 test-hitallo-backend-py
-```
-
-Levando em conta que nós deixamos a porta do `.env` como 8081 o código deverá funcionar como mágica ✨.
-
-Caso você tenha escolhido uma porta diferente é preciso alterar o mapeamento para onde foi especifidado.
-Neste caso siga este comando personalizado:
-```
-  $ docker run -d --name test-hitallo-backend-py  -p <host_port>:<container_port> test-hitallo-backend-py
-```

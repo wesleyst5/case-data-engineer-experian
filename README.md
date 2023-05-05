@@ -19,15 +19,14 @@ Para acessar a documentação clique [aqui](https://app.swaggerhub.com/apis/hita
 Para executar o código local, é necessário seguir dois passos.
 Mas primeiro crie um arquivo `.env` com base no `.env.example` e preencha as informações, ao mudar a porta onde a aplicação será servida é preciso ter atenção na hora da execução.
 
-### Utilizando venv
+### Criar uma rede externa
 
-É preciso ter instalado o pip na sua máquina. Para instalar a virtualenv você pode usar este comando, caso você utilize uma versão diferente é preciso especificar.
 ```
-  $ pip install virtualenv
+  docker network create --driver bridge external-network
 ```
-Agora você pode criar sua virtualenv com o comando a seguir.
+Agora você pode subir um serviço kafka, através do arquivo docker-compose.yaml localizado na raíz do repositório
 ```
-  $ virtualenv <nome_da_sua_venv> 
+  docker-compose up -d
 ```
 Após criar sua virtualenv ative ela executando.
 ```
