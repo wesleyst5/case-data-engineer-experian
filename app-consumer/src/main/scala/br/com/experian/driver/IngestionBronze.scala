@@ -5,12 +5,13 @@ import br.com.experian.config.spark.SparkConfig
 import br.com.experian.constants.{KafkaConstants, ParquetConstants}
 import org.apache.log4j.Logger
 import org.apache.spark.sql.SparkSession
-import org.apache.spark.sql.functions.{col, from_json}
+import org.apache.spark.sql.functions.{col, from_json, substring}
+import org.apache.spark.sql.streaming.Trigger
 import org.apache.spark.sql.types.{DoubleType, IntegerType, StringType, StructField, StructType}
 
-object TaxFareStreaming {
+object IngestionBronze {
 
-  @transient private val logger: Logger = Logger.getLogger(TaxFareStreaming.getClass)
+  @transient private val logger: Logger = Logger.getLogger(IngestionBronze.getClass)
 
   def main(args: Array[String]): Unit = {
 
@@ -20,7 +21,7 @@ object TaxFareStreaming {
       val conf = Config()
 
       // criando instancia sparkStreamingContext
-      val ssc = SparkConfig.createSparkStreamingContext(SparkConfig.configurationSparkStreaming("POC - 2 Etapa"))
+      val ssc = SparkConfig.createSparkStreamingContext(SparkConfig.configurationSparkStreaming("Ingestion Bronze"))
       val sc = ssc.sparkContext
       val sparkSession2 = SparkSession.builder().config(sc.getConf).getOrCreate()
       val broadcastSparkSession = sc.broadcast(sparkSession2)
@@ -34,6 +35,7 @@ object TaxFareStreaming {
         .option("subscribe", conf.getString(KafkaConstants.KAFKA_CONSUMER_TOPIC_NAME_JSON_TAXFARE))
         .option("group.id", conf.getString(KafkaConstants.GROUP_ID))
         .option("max.poll.records", 100)
+        .option("failOnDataLoss", false)
         .option("startingOffsets", "earliest") // From starting
         .load()
 
@@ -54,20 +56,23 @@ object TaxFareStreaming {
         .selectExpr("CAST(value AS STRING)")
         .select(from_json(col("value"), schema).as("data"))
         .select("data.*")
-      //.withColumn("pickup_datetime", to_timestamp(regexp_replace(col("pickup_datetime"), " UTC", "")))
 
 
 //      taxiFareDF.writeStream
 //        .format("console")
 //        .outputMode("append")
+//        .trigger(Trigger.Once)      // <-- Gives MicroBatchExecution
 //        .start()
 //        .awaitTermination()
 
-      taxiFareDF.writeStream
+      taxiFareDF
+        .withColumn("data",substring(col("pickup_datetime"),1,10))
+        .writeStream
         .option("checkpointLocation", ParquetConstants.PATH_TABLE_CHECKPOINT)
         .format("parquet")
-        //.partitionBy("cnpj_fnt", "num_dat_rss")
+        .partitionBy("data")
         .outputMode("append")
+//        .trigger(Trigger.Once)      // <-- Gives MicroBatchExecution
         .start(ParquetConstants.PATH_TABLE_BRONZE)
         .awaitTermination()
 

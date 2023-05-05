@@ -55,6 +55,7 @@ schema = {
 def postMessage():
     print('Iniciando registro de eventos...')
     data = request.get_json()
+
     try:
         datetime_str = data['pickup_datetime']
         date_time_obj_pickup_datetime = datetime.datetime.strptime(datetime_str, '%Y-%m-%d %H:%M:%S')
@@ -62,17 +63,9 @@ def postMessage():
         print('Invalid Format Date (YYYY-MM-DD HH24:MM:SS) pickup_datetime : Missing input')
         return jsonify({'Invalid Format Date (YYYY-MM-DD HH24:MM:SS) pickup_datetime ': 'Missing input'}), 400
 
-    if data is None:
-        print('error: Missing input')
-        return jsonify({'error': 'Missing input'}), 400
 
-    elif not isinstance(date_time_obj_pickup_datetime, datetime.date):
-        print('Invalid Format Date (YYYY-MM-DD HH24:MM:SS) pickup_datetime : Missing input')
-        return jsonify({'Invalid Format Date (YYYY-MM-DD HH24:MM:SS) pickup_datetime ': 'Missing input'}), 400
-
-    else:
-        print('Send register to topic ' + topic + ' the broker ' + broker_kafka)
-        kafkaProducer(data)
+    print('Send register to topic ' + topic + ' the broker ' + broker_kafka)
+    kafkaProducer(data)
 
     return data, 201
 
