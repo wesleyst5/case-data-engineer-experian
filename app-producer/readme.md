@@ -1,6 +1,6 @@
 # Objetivo
 
-Gerar eventos para um toópico kafka através de API.
+Gerar eventos através de API para um tópico kafka.</br>
 Foi implementado um endpoint (**_api/producer_**) para envio de registro para o um tópico kafka
 
 ## Solução
