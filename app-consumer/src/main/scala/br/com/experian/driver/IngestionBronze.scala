@@ -36,11 +36,11 @@ object IngestionBronze {
         .option("group.id", conf.getString(KafkaConstants.GROUP_ID))
         .option("max.poll.records", 100)
         .option("failOnDataLoss", false)
-        .option("startingOffsets", "earliest") // From starting
+//        .option("startingOffsets", "earliest")
         .load()
 
       // define schema mensagem kafka
-      val schema = StructType(Seq(
+      val schema = StructType(Array(
         StructField("key", StringType, true),
         StructField("fare_amount", StringType, true),
         StructField("pickup_datetime", StringType, true),

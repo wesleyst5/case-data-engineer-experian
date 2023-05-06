@@ -22,11 +22,23 @@ Para o desenvolvimento dessa aplicação foram usadas as seguintes tecnlogias:
 ```
 3. Configurar o arquivo [application.conf](src/main/resources/application.conf) 
 
+## Para rodar a solução:
+### 1. Construa uma imagem docker para ser usada
+```
+docker build -t spark_lab/spark:latest .
+```
+
+### 2. Inicie um container do Docker personalizado com o docker-compose
+```
+docker-compose up --scale spark-worker=3 &
+```
+
 ## Build aplicação
 A aplicação usa o Apache maven para realizar o build.
 ```
   mvn clean package
 ```
 
-### Arquivo de Configuração
+#### Referências:
 
+[Config Docker Compose Apache Spark](https://hub.docker.com/r/bitnami/spark/)
