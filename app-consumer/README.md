@@ -1,31 +1,39 @@
 # Objetivo
 
-1. Esse projeto tem como objetivo realizar a ingestão de dados brutos na camada bronze do datalake
-2. Realizar Filtro nos dados da camada raw e armazenar o resultado na camada silver
-
+Realizar ingestão de dados nas camadas bronze e silver do data lake.
+Foi implementado um processo streaming para ingestão na camada broze e um processo batch baseado no filtro passado para ingestão na camada silver.
 
 ## Solução
 ![](doc/img.png)
 
 ## Tecnologias do projeto
-- Spark 3.3
-- Scala 2.12
-- Jdk 11
-- Maven 3.8
+- [Spark 3.3](https://dlcdn.apache.org/spark/spark-3.3.2/spark-3.3.2-bin-hadoop3.tgz)
+- [Scala 2.12](https://docs.scala-lang.org/)
+- [Jdk 11](https://www.oracle.com/br/java/technologies/javase/jdk11-archive-downloads.html#license-lightbox)
+- [Maven 3.8](https://maven.apache.org/docs/3.8.1/release-notes.html)
 
-## Ferramentas usadas no desenvolvimento
+## Ferramentas utilizadas
 - [IntelliJ IDEA](https://www.jetbrains.com/idea/download/download-thanks.html?platform=windows&code=IIC)
 - [Docker](https://docs.docker.com/compose/install/)
 - [Maven](https://maven.apache.org/download.cgi)
 
+
 ## Pré requisitos:
-1. Subir o serviço do kafka através do [docker-compose.yml](https://github.com/wesleyst5/case-data-engineer-experian/blob/main/docker-compose.yaml) localizado na raiz do repositório
-2. Para o funcionamento da aplicação no intellij é necessário adicionar a confiuração de hosts **_/etc/hosts_**
+1. Configuração de variável de ambiente
+   - JAVA_HOME
+   - SPARK_HOME
+   - HADOOP_HOME
+   
+
+2. Subir o serviço do kafka através do [docker-compose.yml](https://github.com/wesleyst5/case-data-engineer-experian/blob/main/docker-compose.yaml) localizado na raiz do repositório
+3. Realizar a configuração de hosts **_/etc/hosts_** para funcionamento no intellij
 ```
 127.0.0.1 kafka
 ```
-3. Configurar o arquivo [application.conf](src/main/resources/application.conf) 
-4. Gerar o .jar da aplicação na pasta **target**. Sugestões:
+3. Se necessário configurar os parâmetros no arquivo
+4. 
+4. Configurar os parâmetros no arquivo [application.conf] (src/main/resources/application.conf) se achar necessário
+5. Gerar o .jar da aplicação na pasta **target**. Opções:
 #### Shell
 ```
 mvn clean package 
@@ -81,7 +89,7 @@ docker exec -it app-consumer-spark bash
 
 ![img_5.png](doc%2Fimg_5.png)
 
-**Observaçao:** _foi realizado o mapeamento no arquivo docker-compose o mapeamento do volume referênte a pasta do dataLake
+**Observaçao:** _foi realizado o mapeamento no arquivo docker-compose o mapeamento do volume referente a pasta do dataLake_
 
 ### Referências:
 
