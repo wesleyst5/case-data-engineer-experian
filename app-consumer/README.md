@@ -16,9 +16,7 @@
 ## Ferramentas usadas no desenvolvimento
 - [IntelliJ IDEA](https://www.jetbrains.com/idea/download/download-thanks.html?platform=windows&code=IIC)
 - [Docker](https://docs.docker.com/compose/install/)
-- [Jdk 11](https://www.oracle.com/br/java/technologies/javase/jdk11-archive-downloads.html)
 - [Maven](https://maven.apache.org/download.cgi)
-- [Git](https://git-scm.com/downloads/)
 
 ## Pré requisitos:
 1. Subir o serviço do kafka através do [docker-compose.yml](https://github.com/wesleyst5/case-data-engineer-experian/blob/main/docker-compose.yaml) localizado na raiz do repositório
