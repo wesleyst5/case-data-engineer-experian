@@ -1,11 +1,11 @@
 ### VARIAVEIS
-export APP_HOME=/app
+export PATH_HOME=/app
+export PATH_LIBS=$PATH_HOME/jars
 
 #### COMANDOS
-nohup spark-submit \
+spark-submit \
 --class br.com.experian.driver.IngestionBronze \
 --name '[INGESTION-BRONZE] - Streaming ' \
 --master yarn \
---jars $(echo /app/jars/*.jar | tr ' ' ',') \
-/app/app.jar \
-> $APP_HOME/ingestionBronze.out &
+--jars $(echo $PATH_LIBS/*.jar | tr ' ' ',') \
+$PATH_HOME/app.jar

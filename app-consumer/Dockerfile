@@ -41,7 +41,9 @@ RUN mkdir -p /tmp/bitnami/pkg/cache/ && cd /tmp/bitnami/pkg/cache/ && \
     done
 #RUN apt-get autoremove --purge -y curl && \
 RUN apt-get update && apt-get upgrade -y && \
-    apt-get clean && rm -rf /var/lib/apt/lists /var/cache/apt/archives
+    apt-get clean \
+#RUN apt-get update && apt-get upgrade -y && \
+#   apt-get clean && rm -rf /var/lib/apt/lists /var/cache/apt/archives
 RUN chmod g+rwX /opt/bitnami
 RUN mkdir /.local && chmod g+rwX /.local
 
@@ -65,7 +67,8 @@ ENV APP_VERSION="3.3.2" \
 RUN mkdir -p /app
 
 RUN apt-get update && apt-get install -y vim telnetd iputils-ping coreutils
-RUN apt update && apt install telnet
+RUN apt update && apt install telnet mlocate
+RUN updatedb
 
 #Add file to image
 ADD target/*.jar /app/app.jar
@@ -74,10 +77,10 @@ ADD ingestionBronze.sh /app/ingestionBronze.sh
 ADD ingestionSilver.sh /app/ingestionSilver.sh
 
 RUN chmod 0775 /app/
-RUN chmod a+x /app/ingestionBronze.sh
-RUN chmod a+x /app/ingestionSilver.sh
+RUN chmod a+w+x /app/ingestionBronze.sh
+RUN chmod a+w+x /app/ingestionSilver.sh
 
-WORKDIR /opt/bitnami/spark
+WORKDIR /app
 USER 1001
 ENTRYPOINT [ "/opt/bitnami/scripts/spark/entrypoint.sh" ]
 CMD [ "/opt/bitnami/scripts/spark/run.sh" ]

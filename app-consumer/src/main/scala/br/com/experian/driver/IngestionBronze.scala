@@ -7,7 +7,7 @@ import org.apache.log4j.Logger
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.functions.{col, from_json, substring}
 import org.apache.spark.sql.streaming.Trigger
-import org.apache.spark.sql.types.{DoubleType, IntegerType, StringType, StructField, StructType}
+import org.apache.spark.sql.types.{StringType, StructField, StructType}
 
 object IngestionBronze {
 
@@ -82,6 +82,7 @@ object IngestionBronze {
     } catch {
       case e: Exception =>
         logger.error(e)
+        System.out.println("Erro na execução: " + e)
     }
 
   }

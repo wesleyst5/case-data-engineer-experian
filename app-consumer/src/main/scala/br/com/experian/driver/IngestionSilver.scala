@@ -29,15 +29,10 @@ object IngestionSilver {
       // instanciando arquivo de configuração
       val conf = Config()
 
-      // criando instancia sparkStreamingContext
-      val ssc = SparkConfig.createSparkStreamingContext(SparkConfig.configurationSparkStreaming("Ingestion Silver"))
-      val sc = ssc.sparkContext
-      val sparkSession2 = SparkSession.builder().config(sc.getConf).getOrCreate()
-      val broadcastSparkSession = sc.broadcast(sparkSession2)
-      val sparkSession = broadcastSparkSession.value
+      val sparkSession = SparkSession.builder()
+        .config(SparkConfig.configurationSparkBatch("Ingestion Silver")).getOrCreate();
 
       // Realiza Leitura na camada Bronze basedo no parâmetro de data informado.
-
       val df = sparkSession.read
               .parquet(ParquetConstants.PATH_TABLE_BRONZE)
               .where(col("data").equalTo(inputData))
@@ -49,22 +44,15 @@ object IngestionSilver {
         .mode(SaveMode.Append)
         .parquet(ParquetConstants.PATH_TABLE_SILVER)
 
-      ssc.start()
-      ssc.awaitTermination()
+      System.out.println("Ingestion Realizado com sucesso.")
 
     } catch {
       case e: Exception =>
         logger.error(e)
+        System.out.println("Erro na execução: " + e)
     }
 
   }
 
-  def generatedLogger(msg: String, time: Long, fileName: String): Unit = {
-    logger.info("#######MEASURE TIME: " + msg + ": " + + time + ". Arquivo: " + fileName)
-  }
-
-  def generatedLogger(msg: String): Unit = {
-    logger.info("#######LOG PROCCESS: " + msg)
-  }
 
 }

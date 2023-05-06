@@ -1,5 +1,6 @@
 ### VARIAVEIS
-export APP_HOME=/app
+export PATH_HOME=/app
+export PATH_LIBS=$PATH_HOME/jars
 
 DATA=$1
 
@@ -10,11 +11,10 @@ if [ -z "$DATA" ];
 fi
 
 #### COMANDOS
-nohup spark-submit \
+spark-submit \
 --class br.com.experian.driver.IngestionSilver \
 --name '[INGESTION-SILVER] - Batch ' \
 --master yarn \
---jars $(echo /app/jars/*.jar | tr ' ' ',') \
-/app/app.jar "$DATA" \
-> $APP_HOME/ingestionSilver.out &
+--jars $(echo $PATH_LIBS/*.jar | tr ' ' ',') \
+$PATH_HOME/app.jar "$DATA"
 
