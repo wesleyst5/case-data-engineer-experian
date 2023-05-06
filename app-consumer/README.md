@@ -4,7 +4,7 @@ Realizar ingestão de dados nas camadas bronze e silver do data lake.
 Foi implementado um processo streaming para ingestão na camada broze e um processo batch baseado no filtro passado para ingestão na camada silver.
 
 ## Solução
-![](doc/img.png)
+![](img/img.png)
 
 ## Tecnologias do projeto
 - [Spark 3.3](https://dlcdn.apache.org/spark/spark-3.3.2/spark-3.3.2-bin-hadoop3.tgz)
@@ -17,21 +17,17 @@ Foi implementado um processo streaming para ingestão na camada broze e um proce
 - [Docker](https://docs.docker.com/compose/install/)
 - [Maven](https://maven.apache.org/download.cgi)
 
-
 ## Pré requisitos:
 1. Configuração de variável de ambiente
    - JAVA_HOME
    - SPARK_HOME
    - HADOOP_HOME
    
-
 2. Subir o serviço do kafka através do [docker-compose.yml](https://github.com/wesleyst5/case-data-engineer-experian/blob/main/docker-compose.yaml) localizado na raiz do repositório
 3. Realizar a configuração de hosts **_/etc/hosts_** para funcionamento no intellij
 ```
 127.0.0.1 kafka
 ```
-3. Se necessário configurar os parâmetros no arquivo
-4. 
 4. Configurar os parâmetros no arquivo [application.conf] (src/main/resources/application.conf) se achar necessário
 5. Gerar o .jar da aplicação na pasta **target**. Opções:
 #### Shell
@@ -42,8 +38,7 @@ mvn clean package
 ```
 clicar duas vezes nao opção package do maven  
 ```
-![img_1.png](doc%2Fimg_1.png)
-
+![img_1.png](img%2Fimg_1.png)
 
 ## Para rodar a solução no docker:
 
@@ -72,10 +67,9 @@ docker exec -it app-consumer-spark bash
 **Obervação:** _Para gerar os eventos use o endpoint (http://127.0.0.1:5000/api/producer), criado na aplicação a [app-produce](https://github.com/wesleyst5/case-data-engineer-experian/tree/main/app-producer)_
 
 #### Saída após start da aplicação:
-![img_2.png](doc%2Fimg_2.png)
+![img_2.png](img%2Fimg_2.png)
 
-![img_3.png](doc%2Fimg_3.png)
-
+![img_3.png](img%2Fimg_3.png)
 
 2. Inicia uma aplicação batch, que tem por objetivo realizar a leitura dos registros da camada bronze e movimentar para a camada silver basedo no parâmetro informado para filtro
 ```
@@ -85,9 +79,9 @@ docker exec -it app-consumer-spark bash
 **Observaçao:** _para visualizar o log gerado pelos jobs, é possível através dos arquivos .out_
 
 #### Saída após start da aplicação:
-![img_4.png](doc%2Fimg_4.png)
+![img_4.png](img%2Fimg_4.png)
 
-![img_5.png](doc%2Fimg_5.png)
+![img_5.png](img%2Fimg_5.png)
 
 **Observaçao:** _foi realizado o mapeamento no arquivo docker-compose o mapeamento do volume referente a pasta do dataLake_
 

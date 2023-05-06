@@ -1,14 +1,18 @@
 # Objetivo
 
-Esse projeto tem como objetivo produzir eventos através do endPoint (**_api/producer_**) e realizar o envio para um Tópico Kafka
+Gerar eventos para um toópico kafka através de API.
+Foi implementado um endpoint (**_api/producer_**) para envio de registro para o um tópico kafka
 
 ## Solução
-![img.png](doc%2Fimg.png)
+![img.png](img%2Fimg.png)
 
-## Tecnologias utilizadas
-  Para o desenvolvimento dessa aplicação foram usadas as seguintes tecnlogias:
-  - Python
-  - Flask
+## Tecnologias do projeto
+  - [Python 3.8](https://www.python.org/downloads/release/python-380/)
+  - [Flask 2.3.2](https://flask.palletsprojects.com/en/2.3.x/)
+
+## Ferramentas utilizadas
+- [PyCharm](https://www.jetbrains.com/pycharm/download/#section=windows)
+- [Docker](https://docs.docker.com/compose/install/)
 
 ## Pré requisitos:
 1. Subir o serviço do kafka através do [docker-compose.yml](https://github.com/wesleyst5/case-data-engineer-experian/blob/main/docker-compose.yaml) localizado na raiz do projeto
@@ -18,7 +22,7 @@ Esse projeto tem como objetivo produzir eventos através do endPoint (**_api/pro
 ```
   docker compose up -d --build
 ```
-### 2. Realize chamada ao endPoint da aplicação. Segue Sugestões abaixo:
+### 2. Realize chamada ao endPoint da aplicação. Segue Sugestões:
 #### Curl
 ```
 curl --location 'http://127.0.0.1:5000/api/producer' --header 'Content-Type: application/json' --data '{
@@ -37,14 +41,14 @@ curl --location 'http://127.0.0.1:5000/api/producer' --header 'Content-Type: app
 
 ## Resultados:
 
-![img_3.png](doc%2Fimg_3.png)
+![img_3.png](img%2Fimg_3.png)
 
 Acesse a url abaixo para visualizar através do client kafdrop o registro enviado ao tópico:
 ```
 http://localhost:19000/
 ```
 
-![img_1.png](doc%2Fimg_1.png)
+![img_1.png](img%2Fimg_1.png)
 
-![img_2.png](doc%2Fimg_2.png)
+![img_2.png](img%2Fimg_2.png)
 
