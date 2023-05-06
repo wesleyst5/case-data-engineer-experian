@@ -5,7 +5,7 @@ Pipeline de ingestão de dados no datalake
 - Criação de um datalake
 - Implementação de uma aplicação para geração dos eventos
 - Ingestão de dados nas camadas bronze e silver do datalake
-- Disponibilizar ferramenta para orquestração do fluxo de trabalho
+- Disponibilização de ferramenta para orquestração do fluxo de trabalho
 
 ## Arquitetura da Solução
 ![img.png](img/img.png)
@@ -14,7 +14,10 @@ Pipeline de ingestão de dados no datalake
 ## Executar a solução
 
 ### Pré-Requisitos
-#### Criar rede externa para uso no docker
+#### Instalação do docker compose
+- [Docker](https://docs.docker.com/compose/install/)
+
+#### Criação de rede externa
 ```
   docker network create --driver bridge external-network
 ```
