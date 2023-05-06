@@ -23,6 +23,6 @@ Pipeline de ingestão de dados no datalake
   docker-compose up -d
 ```
 
-  - [Gerador de eventos](app-producer%2Freadme.md)
-  - [Ingestão de dados](app-consumer%2FREADME.md) 
-  - [Orquestrador do fluxo de trabalho](airflow%2Freadme.md)
+  - [Gerador de eventos](app-producer)
+  - [Ingestão de dados](app-consumer) 
+  - [Orquestrador do fluxo de trabalho](airflow)
