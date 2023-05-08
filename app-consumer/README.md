@@ -23,7 +23,7 @@ Foi implementado um processo streaming para ingestão na camada broze e um proce
    - SPARK_HOME
    - HADOOP_HOME
    
-2. Subir o serviço do kafka através do [docker-compose.yml](https://github.com/wesleyst5/case-data-engineer-experian/blob/main/docker-compose.yaml) localizado na raiz do repositório
+2. Serviço do kafka provisionado.
 3. Realizar a configuração de hosts **_/etc/hosts_** para funcionamento no intellij
 ```
 127.0.0.1 kafka
@@ -47,7 +47,7 @@ clicar duas vezes nao opção package do maven
 docker build -t app-consumer-spark .
 ```
 
-**Observação:** _Caso tenha escolhido essa opção, vai para sessão:_[3 - Orquestrador do fluxo de trabalho]([airflow](..%2Fairflow))
+Executar Passo [3 - Orquestrador do fluxo de trabalho](..%2Fairflow)
 
 
 ## Build e execução dos spark Jobs Manual
