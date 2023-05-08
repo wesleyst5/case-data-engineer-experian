@@ -10,14 +10,14 @@ Esse projeto tem por objetivo provisionar uma aplicação airflow e disponibiliz
 - [Docker](https://docs.docker.com/compose/install/)
 
 
-## Para rodar a solução:
-### 1. Instalar os módulos Python:
+## Prepar ambiente de desenvolvimento:
 ```
 pip install apache-airflow
 pip install apache-airflow-providers-docker
 ```
 
-### 2. Prepara variável de projeto usando docker-compose
+## Para rodar a solução:
+### 1. Prepara variável de projeto para uso do docker-compose
 ```
 cp .env-sample .env
 docker-compose up -d --build
