@@ -1,5 +1,5 @@
 # Projeto
-Pipeline de ingestão de dados no datalake
+Pipeline de ingestão de dados no datalake baseado na estrutura do dataset https://www.kaggle.com/competitions/new-york-city-taxi-fare-prediction/data?select=train.csv
 
 ### Definição Estratégica:
 - Criação de um datalake
