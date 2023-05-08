@@ -5,7 +5,7 @@ x-common:
   &common
   build: .
   volumes:
-    - ./dataLake:/dataLake
+    - dados-datalake:/datalake
   networks:
     - airflow-network
 
@@ -50,3 +50,7 @@ networks:
   default:
     external:
       name: external-network
+
+volumes:
+  dados-datalake:
+    external: true

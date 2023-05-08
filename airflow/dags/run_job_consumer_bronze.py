@@ -1,10 +1,13 @@
 from airflow import DAG
 from datetime import datetime, timedelta
+from airflow.operators.bash import BashOperator
 from airflow.operators.python import PythonOperator
-from airflow.providers.apache.spark.operators.spark_submit import SparkSubmitOperator
+from airflow.providers.docker.operators.docker import DockerOperator
+
+from docker.types import Mount
 
 def print_message():
-    print('Init consummer kafka....')
+    print('Init consumer kafka....')
 
 SCHEDULE_INTERVAL = None   # '@once', '@daily'
 
@@ -14,6 +17,7 @@ default_args = {
     'retries': 0,
     'catchup': False,
     'retry_delay': timedelta(minutes=5),
+    'tags': ['ingestion datalake Bronze']
 }
 
 dag=DAG('run_spark_scala_job_bronze',
@@ -21,23 +25,25 @@ dag=DAG('run_spark_scala_job_bronze',
           schedule_interval=SCHEDULE_INTERVAL,
           )
 
-python_operator=PythonOperator(task_id='print_message_task',
+init_message=PythonOperator(task_id='print_init_message_task',
                                  python_callable=print_message, dag=dag)
 
-spark_config = {
-    'conf': {
-        "spark.yarn.maxAppAttempts": "1",
-        "spark.yarn.executor.memoryOverhead": "512"
-    },
-    'conn_id': 'spark_local',
-    'java_class': 'br.com.experian.driver.Main',
-    'application': '/opt/airflow/app/consumer-kafka-1.0.0.jar',
-    'driver_memory': '1g',
-    'executor_cores': 1,
-    'num_executors': 1,
-    'executor_memory': '1g'
-}
+finish_message=BashOperator(task_id='print_finish_message_task',
+                                 bash_command='Finished message consumption!', dag=dag)
 
-spark_operator = SparkSubmitOperator(task_id='spark_scala_consumer_job_spark_submit_task', dag=dag, **spark_config)
+executar_job_spark_ingestion_bronze = DockerOperator(
+        docker_url="unix://var/run/docker.sock",  # Set your docker URL
+        command="/app/ingestionBronze.sh",
+        image="app-consumer-spark:latest",
+        container_name="run-airflow-bronze",
+        auto_remove="True",
+        network_mode="external-network",
+        mounts=[
+            Mount(source='dados-datalake', target='/datalake', type='volume')
+        ],
+        mount_tmp_dir=False,
+        task_id="run_job_consumer_bronze",
+        dag=dag,
+)
 
-python_operator >> spark_operator
+init_message >> executar_job_spark_ingestion_bronze >> finish_message

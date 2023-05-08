@@ -40,7 +40,17 @@ clicar duas vezes nao opção package do maven
 ```
 ![img_1.png](img%2Fimg_1.png)
 
-## Para rodar a solução no docker:
+
+## Build e execução dos spark jobs via Airflow
+### 1. Realize o build
+```
+docker build -t app-consumer-spark .
+```
+
+**Observação:** _Caso tenha escolhido essa opção, vai para sessão:_[3 - Orquestrador do fluxo de trabalho]([airflow](..%2Fairflow))
+
+
+## Build e execução dos spark Jobs Manual
 
 ### 1. Realize o build e deploy da aplicação
 ```
@@ -59,14 +69,14 @@ docker exec -it app-consumer-spark bash
 
 ### 4. Execute os arquivo .sh para submeter o job spark
 
-1. Inicia uma aplicação streaming, que tem por objetivo consumir os eventos publicados no tópico **TAXIFARE** kafka e armazena na camada **bronze** (raw) no formato **.parquet** particionado por **pickup_datetime** (yyyy-mm-dd).
+1. Inicia uma aplicação streaming, que tem por objetivo consumir os eventos publicados no tópico **TAXIFARE** kafka e armazenar na camada **bronze** (raw) no formato **.parquet** particionado por **pickup_datetime** (yyyy-mm-dd) no datalake.
 ```
 ./ingestionBronze.sh | tee ingestionBronze.out
 ```
 
 **Obervação:** _Para gerar os eventos use o endpoint (http://127.0.0.1:5000/api/producer), criado na aplicação a [app-produce](https://github.com/wesleyst5/case-data-engineer-experian/tree/main/app-producer)_
 
-#### Saída após start da aplicação:
+#### Resultado no console:
 ![img_2.png](img%2Fimg_2.png)
 
 ![img_3.png](img%2Fimg_3.png)
@@ -78,12 +88,12 @@ docker exec -it app-consumer-spark bash
 
 **Observaçao:** _para visualizar o log gerado pelos jobs, é possível através dos arquivos .out_
 
-#### Saída após start da aplicação:
+#### Resultado no console:
 ![img_4.png](img%2Fimg_4.png)
 
 ![img_5.png](img%2Fimg_5.png)
 
-**Observaçao:** _foi realizado o mapeamento no arquivo docker-compose o mapeamento do volume referente a pasta do dataLake_
+**Observaçao:** _foi feito mapeamento do volume da pasta dataLake no arquivo docker-compose_
 
 ### Referências:
 

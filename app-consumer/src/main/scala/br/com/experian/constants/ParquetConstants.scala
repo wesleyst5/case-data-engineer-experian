@@ -2,7 +2,7 @@ package br.com.experian.constants
 
 object ParquetConstants extends Serializable {
 
-  private val PATH_TABLES = "/dataLake/"
+  private val PATH_TABLES = "/datalake/"
   val TABLE_BRONZE = "bronze"
   val TABLE_SILVER = "silver"
   val TABLE_GOLD = "gold"

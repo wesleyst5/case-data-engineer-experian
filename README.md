@@ -21,11 +21,24 @@ Pipeline de ingestão de dados no datalake
 ```
   docker network create --driver bridge external-network
 ```
-#### Subir seviço do kafka
+
+#### Criação de volume para armazenamento dos dados do dataleke
+```
+  docker volume create dados-datalake
+```
+
+***Observação:*** _caso esteja usando [windows + wsl + docker-desktop], segue o path do datalake:_
+```
+  \\wsl.localhost\docker-desktop-data\version-pack-data\community\docker\volumes\dados-datalake\_data
+```
+
+
+#### Subir serviço do kafka
 ```
   docker-compose up -d
 ```
 
-  - [Gerador de eventos](app-producer)
-  - [Ingestão de dados](app-consumer) 
-  - [Orquestrador do fluxo de trabalho](airflow)
+### Passos:
+  - [1 - Gerador de eventos](app-producer)
+  - [2 - Ingestão de dados](app-consumer) 
+  - [3 - Orquestrador do fluxo de trabalho](airflow)

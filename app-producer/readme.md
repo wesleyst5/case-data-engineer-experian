@@ -15,7 +15,7 @@ Foi implementado um endpoint (**_api/producer_**) para envio de registro para o 
 - [Docker](https://docs.docker.com/compose/install/)
 
 ## Pré requisitos:
-1. Subir o serviço do kafka através do [docker-compose.yml](https://github.com/wesleyst5/case-data-engineer-experian/blob/main/docker-compose.yaml) localizado na raiz do projeto
+1. Serviço do kafka provisionado.
 
 ## Para rodar a solução:
 ### 1. Builde a imagem e execute o comando abaixo para subir a aplicação
@@ -43,7 +43,7 @@ curl --location 'http://127.0.0.1:5000/api/producer' --header 'Content-Type: app
 
 ![img_3.png](img%2Fimg_3.png)
 
-Acesse a url abaixo para visualizar através do client kafdrop o registro enviado ao tópico:
+Clicar na url abaixo para acesso ao client kafdrop (apresenta os tópicos e mensagens produzidas no kafka)
 ```
 http://localhost:19000/
 ```

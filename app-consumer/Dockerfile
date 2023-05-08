@@ -65,6 +65,7 @@ ENV APP_VERSION="3.3.2" \
 
 
 RUN mkdir -p /app
+RUN mkdir -p /datalake
 
 RUN apt-get update && apt-get install -y vim telnetd iputils-ping coreutils
 RUN apt update && apt install telnet mlocate
@@ -76,9 +77,11 @@ COPY jars /app/jars
 ADD ingestionBronze.sh /app/ingestionBronze.sh
 ADD ingestionSilver.sh /app/ingestionSilver.sh
 
+RUN chmod 0775 /datalake/
 RUN chmod 0775 /app/
 RUN chmod a+w+x /app/ingestionBronze.sh
 RUN chmod a+w+x /app/ingestionSilver.sh
+
 
 WORKDIR /app
 USER 1001

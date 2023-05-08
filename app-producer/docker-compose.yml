@@ -1,10 +1,10 @@
 version: '3.4'
 services:
-  app-consumer:
+  app-producer:
     build: '.'
     networks:
       - default
-    container_name: app-consumer
+    container_name: app-producer
     ports:
       - "5000:5000"
 
