@@ -1,7 +1,6 @@
 version: '3.4'
 
 x-common:
-  # image: docker.io/bitnami/spark:3.3
   &common
   build: .
   volumes:
@@ -50,7 +49,6 @@ networks:
   default:
     external:
       name: external-network
-
 volumes:
   dados-datalake:
     external: true
