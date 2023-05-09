@@ -9,41 +9,34 @@ x-common:
     - airflow-network
 
 services:
-  spark:
-#    image: docker.io/bitnami/spark:3.3
+  spark-master:
+    #image: app-consumer-spark:latest
     <<: [ *common]
     container_name: app-consumer-spark
     networks:
       - default
     environment:
-      - SPARK_MODE=master
-      - SPARK_RPC_AUTHENTICATION_ENABLED=no
-      - SPARK_RPC_ENCRYPTION_ENABLED=no
-      - SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED=no
-      - SPARK_SSL_ENABLED=no
-      - SPARK_USER=spark
+      - SPARK_MASTER_HOST=spark-master
+      - SPARK_MASTER_PORT=7077
     ports:
-      - '8080:8080'
-      - '7077:7077'
+      - 8080:8080
+      - 7077:7077
+    command: /opt/spark-3.3.2-bin-hadoop3/bin/spark-class org.apache.spark.deploy.master.Master
 
   spark-worker:
-    #image: docker.io/bitnami/spark:3.3
-    <<: [ *common]
+    #image: app-consumer-spark:latest
+    <<: [ *common ]
     container_name: app-consumer-spark-worker
     networks:
       - default
+    depends_on:
+      - spark-master
     environment:
-      - SPARK_MODE=worker
-      - SPARK_MASTER_URL=spark://spark:7077
-      - SPARK_WORKER_MEMORY=1G
-      - SPARK_WORKER_CORES=1
-      - SPARK_RPC_AUTHENTICATION_ENABLED=no
-      - SPARK_RPC_ENCRYPTION_ENABLED=no
-      - SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED=no
-      - SPARK_SSL_ENABLED=no
-      - SPARK_USER=spark
-    ports:
-      - '8081:8081'
+      - SPARK_WORKER_MEMORY=2g
+      - SPARK_WORKER_CORES=2
+      - SPARK_WORKER_HOSTNAME=spark-worker
+      - SPARK_MASTER_URL=spark://spark-master:7077
+    command: /opt/spark-3.3.2-bin-hadoop3/bin/spark-class org.apache.spark.deploy.worker.Worker spark://spark-master:7077
 
 networks:
   default:

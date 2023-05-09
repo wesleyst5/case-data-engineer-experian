@@ -1,68 +1,35 @@
-FROM docker.io/bitnami/minideb:bullseye
+# Imagem base do Ubuntu 20.04
+FROM ubuntu:20.04
 
-ARG JAVA_EXTRA_SECURITY_DIR="/bitnami/java/extra-security"
-ARG TARGETARCH
+# Definir variáveis de ambiente
+ENV SPARK_VERSION=3.3.2
+ENV SCALA_VERSION=2.12.15
+ENV JAVA_VERSION=11
 
-LABEL com.vmware.cp.artifact.flavor="sha256:109c7d51bd69bb6b3df71017440c1ea0699454f81fe188056c083f0b57c96ea6" \
-      org.opencontainers.image.base.name="docker.io/bitnami/minideb:bullseye" \
-      org.opencontainers.image.created="2023-05-03T01:19:24Z" \
-      org.opencontainers.image.description="Application packaged by VMware, Inc" \
-      org.opencontainers.image.licenses="Apache-2.0" \
-      org.opencontainers.image.ref.name="3.3.2-debian-11-r22" \
-      org.opencontainers.image.title="spark" \
-      org.opencontainers.image.vendor="VMware, Inc." \
-      org.opencontainers.image.version="3.3.2"
+# Instalar dependências
+RUN apt-get update && apt-get install -y \
+    openjdk-$JAVA_VERSION-jdk \
+    wget \
+    && rm -rf /var/lib/apt/lists/*
 
-ENV HOME="/" \
-    OS_ARCH="${TARGETARCH:-amd64}" \
-    OS_FLAVOUR="debian-11" \
-    OS_NAME="linux" \
-    PATH="/opt/bitnami/python/bin:/opt/bitnami/java/bin:/opt/bitnami/spark/bin:/opt/bitnami/spark/sbin:$PATH"
+# Baixar e extrair o Apache Spark
+RUN wget -qO- https://downloads.apache.org/spark/spark-$SPARK_VERSION/spark-$SPARK_VERSION-bin-hadoop3.tgz | tar xvz -C /opt
 
-COPY prebuildfs /
-COPY prebuildfs /
-SHELL ["/bin/bash", "-o", "pipefail", "-c"]
-# Install required system packages and dependencies
-RUN install_packages ca-certificates curl libbz2-1.0 libcom-err2 libcrypt1 libffi7 libgcc-s1 libgssapi-krb5-2 libk5crypto3 libkeyutils1 libkrb5-3 libkrb5support0 liblzma5 libncursesw6 libnsl2 libreadline8 libsqlite3-0 libssl1.1 libstdc++6 libtinfo6 libtirpc3 procps zlib1g
-RUN mkdir -p /tmp/bitnami/pkg/cache/ && cd /tmp/bitnami/pkg/cache/ && \
-    COMPONENTS=( \
-      "python-3.9.16-11-linux-${OS_ARCH}-debian-11" \
-      "java-11.0.19-7-1-linux-${OS_ARCH}-debian-11" \
-      "spark-3.3.2-5-linux-${OS_ARCH}-debian-11" \
-    ) && \
-    for COMPONENT in "${COMPONENTS[@]}"; do \
-      if [ ! -f "${COMPONENT}.tar.gz" ]; then \
-        curl -SsLf "https://downloads.bitnami.com/files/stacksmith/${COMPONENT}.tar.gz" -O ; \
-        curl -SsLf "https://downloads.bitnami.com/files/stacksmith/${COMPONENT}.tar.gz.sha256" -O ; \
-      fi && \
-      sha256sum -c "${COMPONENT}.tar.gz.sha256" && \
-      tar -zxf "${COMPONENT}.tar.gz" -C /opt/bitnami --strip-components=2 --no-same-owner --wildcards '*/files' && \
-      rm -rf "${COMPONENT}".tar.gz{,.sha256} ; \
-    done
-#RUN apt-get autoremove --purge -y curl && \
-RUN apt-get update && apt-get upgrade -y && \
-    apt-get clean \
-#RUN apt-get update && apt-get upgrade -y && \
-#   apt-get clean && rm -rf /var/lib/apt/lists /var/cache/apt/archives
-RUN chmod g+rwX /opt/bitnami
-RUN mkdir /.local && chmod g+rwX /.local
+# Baixar e instalar o Scala
+RUN wget https://downloads.lightbend.com/scala/$SCALA_VERSION/scala-$SCALA_VERSION.deb && \
+    dpkg -i scala-$SCALA_VERSION.deb
 
-COPY rootfs /
-RUN /opt/bitnami/scripts/spark/postunpack.sh
-RUN /opt/bitnami/scripts/java/postunpack.sh
-ENV APP_VERSION="3.3.2" \
-    BITNAMI_APP_NAME="spark" \
-    JAVA_HOME="/opt/bitnami/java" \
-    LD_LIBRARY_PATH="/opt/bitnami/python/lib:/opt/bitnami/spark/venv/lib/python3.8/site-packages/numpy.libs:$LD_LIBRARY_PATH" \
-    LIBNSS_WRAPPER_PATH="/opt/bitnami/common/lib/libnss_wrapper.so" \
-    NSS_WRAPPER_GROUP="/opt/bitnami/spark/tmp/nss_group" \
-    NSS_WRAPPER_PASSWD="/opt/bitnami/spark/tmp/nss_passwd" \
-    PYTHONPATH="/opt/bitnami/spark/python/:$PYTHONPATH" \
-    SPARK_HOME="/opt/bitnami/spark" \
-    SPARK_USER="spark" \
-    HADOOP_CONF_DIR=":$HADOOP_HOME/etc/hadoop" \
-    YARN_CONF_DIR=":$HADOOP_HOME/etc/hadoop"
+# Configurar variáveis de ambiente do Spark
+ENV SPARK_HOME=/opt/spark-$SPARK_VERSION-bin-hadoop3
+ENV PATH=$PATH:$SPARK_HOME/bin
+ENV HADOOP_CONF_DIR=/etc/hadoop
+ENV YARN_CONF_DIR=/etc/hadoop
 
+# Definir diretório de trabalho padrão
+WORKDIR $SPARK_HOME
+
+# Expor a porta do Spark (opcional, se necessário)
+EXPOSE 4040
 
 RUN mkdir -p /app
 RUN mkdir -p /datalake
@@ -73,17 +40,16 @@ RUN updatedb
 
 #Add file to image
 ADD target/*.jar /app/app.jar
-COPY jars /app/jars
-ADD ingestionBronze.sh /app/ingestionBronze.sh
-ADD ingestionSilver.sh /app/ingestionSilver.sh
+COPY ../jars /app/jars
+ADD ../ingestionBronze.sh /app/ingestionBronze.sh
+ADD ../ingestionSilver.sh /app/ingestionSilver.sh
 
 RUN chmod 0775 /datalake/
 RUN chmod 0775 /app/
 RUN chmod a+w+x /app/ingestionBronze.sh
 RUN chmod a+w+x /app/ingestionSilver.sh
 
-
 WORKDIR /app
-USER 1001
-ENTRYPOINT [ "/opt/bitnami/scripts/spark/entrypoint.sh" ]
-CMD [ "/opt/bitnami/scripts/spark/run.sh" ]
+
+# Comando padrão ao executar o contêiner
+CMD ["spark-shell"]
