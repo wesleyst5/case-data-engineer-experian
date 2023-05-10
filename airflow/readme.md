@@ -33,15 +33,15 @@ Entre com o usuário airflow e a senha airflow
 ## Para rodar a solução:
 
 ### 1. Ative a DAG e execute
-![img.png](img%2Fimg.png)
+![img.png](img/img.png)
 
 ***Observação:*** _para execução da DAG run_park_scala_job_silver, é necessário exutar com a opção Trigger DAG w\ config e informar uma data no formato YYYY-MM-DD
 
 
 ### 2. Resultado da execução
-![img_1.png](img%2Fimg_1.png)
+![img_1.png](img/img_1.png)
 
-![img_2.png](img%2Fimg_2.png)
+![img_2.png](img/img_2.png)
 
 
 ***Observação:*** _caso esteja usando [windows + wsl + docker-desktop], segue o path do datalake:_

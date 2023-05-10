@@ -4,7 +4,7 @@ Gerar eventos através de API para um tópico kafka.</br>
 Foi implementado um endpoint (**_api/producer_**) para envio de registro para o um tópico kafka
 
 ## Solução
-![img.png](img%2Fimg.png)
+![img.png](img/img.png)
 
 ## Tecnologias do projeto
   - [Python 3.8](https://www.python.org/downloads/release/python-380/)
@@ -41,7 +41,7 @@ curl --location 'http://127.0.0.1:5000/api/producer' --header 'Content-Type: app
 
 ## Resultados:
 
-![img_3.png](img%2Fimg_3.png)
+![img_3.png](img/img_3.png)
 
 Clicar na url abaixo para acesso ao client kafdrop (apresenta os tópicos e mensagens produzidas no kafka)
 ```
