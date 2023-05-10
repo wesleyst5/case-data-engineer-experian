@@ -8,7 +8,7 @@ Pipeline de ingestão de dados no datalake baseado na estrutura do dataset https
 - Disponibilização de ferramenta para orquestração do fluxo de trabalho
 
 ## Arquitetura da Solução
-![img.png](img/img.png)
+![img.png](./img/img.png)
 
 
 ## Executar a solução

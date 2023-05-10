@@ -4,7 +4,7 @@ Realizar ingestão de dados nas camadas bronze e silver do data lake.</br>
 Foi implementado um processo streaming para ingestão na camada broze e um processo batch baseado no filtro passado para ingestão na camada silver.
 
 ## Solução
-![](img/img.png)
+![](./img/img.png)
 
 ## Tecnologias do projeto
 - [Spark 3.3](https://dlcdn.apache.org/spark/spark-3.3.2/spark-3.3.2-bin-hadoop3.tgz)
@@ -38,7 +38,7 @@ mvn clean package
 ```
 clicar duas vezes nao opção package do maven  
 ```
-![img_1.png](img/img_1.png)
+![img_1.png](./img/img_1.png)
 
 
 ## Build e execução dos spark jobs via Airflow
@@ -77,9 +77,9 @@ docker exec -it app-consumer-spark bash
 **Obervação:** _Para gerar os eventos use o endpoint (http://127.0.0.1:5000/api/producer), criado na aplicação a [app-produce](https://github.com/wesleyst5/case-data-engineer-experian/tree/main/app-producer)_
 
 #### Resultado no console:
-![img_2.png](img/img_2.png)
+![img_2.png](./img/img_2.png)
 
-![img_3.png](img/img_3.png)
+![img_3.png](./img/img_3.png)
 
 2. Inicia uma aplicação batch, que tem por objetivo realizar a leitura dos registros da camada bronze e movimentar para a camada silver basedo no parâmetro informado para filtro
 ```
@@ -89,9 +89,9 @@ docker exec -it app-consumer-spark bash
 **Observaçao:** _para visualizar o log gerado pelos jobs, é possível através dos arquivos .out_
 
 #### Resultado no console:
-![img_4.png](img/img_4.png)
+![img_4.png](./img/img_4.png)
 
-![img_5.png](img/img_5.png)
+![img_5.png](./img/img_5.png)
 
 **Observaçao:** _foi feito mapeamento do volume da pasta dataLake no arquivo docker-compose_
 
