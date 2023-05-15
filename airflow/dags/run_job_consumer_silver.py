@@ -47,7 +47,7 @@ finish_message=BashOperator(task_id='print_finish_message_task',
 executar_job_spark_ingestion_silver = DockerOperator(
         docker_url="unix://var/run/docker.sock",  # Set your docker URL
         command='/app/ingestionSilver.sh {{params.data}}',
-        image="app-consumer-spark-master:latest",
+        image="app-consumer-spark:latest",
         container_name="run-airflow-silver",
         auto_remove="True",
         network_mode="external-network",

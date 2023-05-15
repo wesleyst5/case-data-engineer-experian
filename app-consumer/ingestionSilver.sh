@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 ### VARIAVEIS
 export PATH_HOME=/app
 export PATH_LIBS=$PATH_HOME/jars
