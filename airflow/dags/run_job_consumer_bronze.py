@@ -47,7 +47,7 @@ finish_message=BashOperator(task_id='print_finish_message_task',
 executar_job_spark_ingestion_bronze = DockerOperator(
         docker_url="unix://var/run/docker.sock",
         command="/app/ingestionBronze.sh ",
-        image="app-consumer-spark:latest",
+        image="app-consumer-spark-master:latest",
         container_name="run-airflow-bronze",
         auto_remove="True",
         network_mode="external-network",
